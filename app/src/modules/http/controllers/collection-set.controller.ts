@@ -16,7 +16,6 @@ export class CollectionSetController {
 		});
 
 		const resArr = collectionSet.collections.map((x: any) => {
-			console.log(x.collection.createdAt);
 			return {
 				collection: {
 					id: x.collection.id,
