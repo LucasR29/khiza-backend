@@ -1,7 +1,7 @@
-import { CollectionsSet } from 'src/entities/collections-set';
+import { CollectionSet } from 'src/entities/collection-set';
 
 export abstract class CollectionsSetRepository {
-	abstract create(collectionsSet: CollectionsSet): Promise<CollectionsSet>;
-	abstract retrieve(id: string): Promise<CollectionsSet | { message: string }>;
-	abstract retrieveAll(): Promise<CollectionsSet[]>;
+	abstract create(collectionsSet: CollectionSet): Promise<CollectionSet>;
+	abstract retrieve(id: string): Promise<CollectionSet | { message: string }>;
+	abstract retrieveAll(): Promise<CollectionSet[]>;
 }

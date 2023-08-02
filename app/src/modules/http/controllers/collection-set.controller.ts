@@ -1,10 +1,10 @@
 import { Body, Controller, Post, Get, Query, Res } from '@nestjs/common';
 import { CollectionsSetService } from 'src/services/collections-set.service';
-import { CollectionsSet } from 'src/entities/collections-set';
+import { CollectionSet } from 'src/entities/collection-set';
 import { createCollectionsSetBody } from '../dtos/create-collection-set.dto';
 
-@Controller('collections-set')
-export class CollectionsSetController {
+@Controller('collection-set')
+export class CollectionSetController {
 	constructor(private createCollectionsSet: CollectionsSetService) {}
 
 	@Post()
@@ -15,14 +15,29 @@ export class CollectionsSetController {
 			collections,
 		});
 
-		return collectionSet;
+		const resArr = collectionSet.collections.map((x: any) => {
+			console.log(x.collection.createdAt);
+			return {
+				collection: {
+					id: x.collection.id,
+					contract: x.collection.contract,
+					name: x.collection.name,
+					floorSale: x.collection.floorSale,
+					floorSaleChange: x.collection.floorSaleChange,
+					description: x.collection.description,
+					createdAt: x.collection.createdAt,
+				},
+			};
+		});
+
+		return { id: collectionSet.getID, collections: resArr };
 	}
 
 	@Get()
 	async retrive(
 		@Query('id') id: string,
 		@Res() res,
-	): Promise<CollectionsSet | { message: string }> {
+	): Promise<CollectionSet | { message: string }> {
 		const collection = await this.createCollectionsSet.retrieve(id);
 
 		if (Object.keys(collection).includes('message')) {
@@ -35,7 +50,7 @@ export class CollectionsSetController {
 	}
 
 	@Get('all')
-	async retriveAll(): Promise<{ collectionsSets: CollectionsSet[] }> {
+	async retriveAll(): Promise<{ collectionsSets: CollectionSet[] }> {
 		const collectionsSets = await this.createCollectionsSet.retrieveAll();
 
 		return { collectionsSets: collectionsSets };

@@ -6,7 +6,7 @@ export interface CollectionSetProps {
 	createdAt?: Date;
 }
 
-export class CollectionsSet {
+export class CollectionSet {
 	private id: string;
 	private props: CollectionSetProps;
 

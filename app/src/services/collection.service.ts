@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { error } from 'console';
 import {
-	api,
 	retrieveCollection,
 	syncCollection,
 } from 'src/api/reservoir/reservoir';
 import { Collection } from 'src/entities/collection';
 import { CollectionRepostory } from 'src/repositories/collection.repository';
-import { json } from 'stream/consumers';
 
 interface SendCollectionRequest {
 	contract: string;

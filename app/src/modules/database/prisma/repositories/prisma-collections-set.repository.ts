@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { CollectionsSetRepository } from 'src/repositories/collections-set.repository';
-import { CollectionsSet } from 'src/entities/collections-set';
+import { CollectionSet } from 'src/entities/collection-set';
 
 @Injectable()
 export class PrismaCollectionsSetRepository
@@ -9,7 +9,7 @@ export class PrismaCollectionsSetRepository
 {
 	constructor(private prismaService: PrismaService) {}
 
-	async create(collectionsSet: any): Promise<CollectionsSet> {
+	async create(collectionsSet: any): Promise<CollectionSet> {
 		const collsIDS = [];
 
 		collectionsSet.collections.forEach((x) => {
@@ -26,10 +26,10 @@ export class PrismaCollectionsSetRepository
 			},
 		});
 
-		return set as unknown as CollectionsSet;
+		return set as unknown as CollectionSet;
 	}
 
-	async retrieve(id: string): Promise<CollectionsSet | { message: string }> {
+	async retrieve(id: string): Promise<CollectionSet | { message: string }> {
 		const collExist = await this.prismaService.colectionsSet.findUnique({
 			where: { id: id },
 			include: { collections: true },
@@ -39,12 +39,14 @@ export class PrismaCollectionsSetRepository
 			return { message: 'No collections set found' };
 		}
 
-		return collExist as unknown as CollectionsSet;
+		return collExist as unknown as CollectionSet;
 	}
 
-	async retrieveAll(): Promise<CollectionsSet[]> {
-		const collectionsSets = await this.prismaService.colectionsSet.findMany();
+	async retrieveAll(): Promise<CollectionSet[]> {
+		const collectionsSets = await this.prismaService.colectionsSet.findMany({
+			include: { collections: true },
+		});
 
-		return collectionsSets as unknown as CollectionsSet[];
+		return collectionsSets as unknown as CollectionSet[];
 	}
 }

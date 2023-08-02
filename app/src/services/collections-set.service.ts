@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CollectionsSet } from 'src/entities/collections-set';
+import { CollectionSet } from 'src/entities/collection-set';
 import { CollectionsSetRepository } from 'src/repositories/collections-set.repository';
 import { CollectionService } from './collection.service';
 
@@ -8,7 +8,7 @@ interface SendCollectionsSetRequest {
 }
 
 interface SendCollectionsSetResponse {
-	collectionSet: CollectionsSet;
+	collectionSet: CollectionSet;
 }
 
 @Injectable()
@@ -31,7 +31,7 @@ export class CollectionsSetService {
 
 		await Promise.all(promises);
 
-		const collectionSet = new CollectionsSet({
+		const collectionSet = new CollectionSet({
 			collections: collArr,
 		});
 
@@ -40,13 +40,13 @@ export class CollectionsSetService {
 		return { collectionSet };
 	}
 
-	async retrieve(id: string): Promise<CollectionsSet | { message: string }> {
+	async retrieve(id: string): Promise<CollectionSet | { message: string }> {
 		const collectionSet = await this.collectionSetRepository.retrieve(id);
 
 		return collectionSet;
 	}
 
-	async retrieveAll(): Promise<CollectionsSet[]> {
+	async retrieveAll(): Promise<CollectionSet[]> {
 		const collectionsSets = await this.collectionSetRepository.retrieveAll();
 
 		return collectionsSets;
