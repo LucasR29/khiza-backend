@@ -27,7 +27,13 @@ The stored data can then be retrieved when requested.
 git clone git@github.com:LucasR29/khiza-backend.git
 ```
 
-2. Install the dependencies:
+2. Enter app folder:
+
+```
+cd app
+```
+
+3. Install the dependencies:
 
 ```
 npm install
