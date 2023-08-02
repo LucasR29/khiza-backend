@@ -5,12 +5,14 @@ interface reservoirResponse {
 	collections: CollectionProps[];
 }
 
+const apiKey = process.env.API_KEY;
+
 export const api = axios.create({
 	baseURL: 'https://api.reservoir.tools/',
 	timeout: 10000,
 	headers: {
 		'content-type': 'application/json',
-		'x-api-key': '65218a87-33cd-5387-a4b6-d52a1098baa9',
+		'x-api-key': apiKey,
 	},
 });
 
