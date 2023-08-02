@@ -31,4 +31,6 @@ yarn install
 ```
 
 ## Usage:
-The project alredy contains a .env file, put your info there
+The project already contains 2 .env files one is for docker and the other one is for local run.
+You need to create a Resevoir Key to use this application, put the key and your database info in both files.
+Create the key here: https://docs.reservoir.tools/reference/dashboard-sign-up.
