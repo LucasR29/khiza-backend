@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - ${POSTGRES_DB_PORT}:${POSTGRES_DB_PORT}
+    container_name: 'postgres'
+    restart: always
+    volumes:
+      - "pg-data:/var/lib/postgres/data"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - backend_network
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - backend_network
+
+  api:
+    depends_on:
+      - postgres
+    container_name: "khiza_api_${NODE_ENV}"
+    image: "khiza_api_${NODE_ENV}"
+    environment:
+      - NODE_ENV:${NODE_ENV}
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: always
+    networks:
+      - backend_network
+
+volumes:
+  pg-data:
+
+networks:
+  backend_network:
