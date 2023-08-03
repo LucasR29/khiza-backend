@@ -62,4 +62,8 @@ export class Collection {
 	public get name(): string {
 		return this.props.name;
 	}
+
+	public get createdAt(): Date {
+		return this.props.createdAt;
+	}
 }

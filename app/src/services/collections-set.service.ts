@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CollectionSet } from 'src/entities/collection-set';
 import { CollectionsSetRepository } from 'src/repositories/collections-set.repository';
 import { CollectionService } from './collection.service';
+import { retrieveCollection } from 'src/api/reservoir/reservoir';
 
 interface SendCollectionsSetRequest {
 	collections: string[];
@@ -31,13 +32,18 @@ export class CollectionsSetService {
 
 		await Promise.all(promises);
 
-		const collectionSet = new CollectionSet({
-			collections: collArr,
-		});
+		const filterArr = collArr.filter((x) => x.collection.name != 'invalid');
 
-		await this.collectionSetRepository.create(collectionSet);
+		if (promises) {
+			const collectionSet = new CollectionSet({
+				collections: filterArr,
+			});
 
-		return { collectionSet };
+			await this.collectionSetRepository.create(collectionSet);
+
+			return { collectionSet };
+		}
+		return;
 	}
 
 	async retrieve(id: string): Promise<CollectionSet | { message: string }> {

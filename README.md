@@ -87,7 +87,51 @@ yarn start:dev
 
 ## Endpoints
 
-## `/collection`
+All endpoints besides `/user` and `/login` require a Bearer Token. The token is obtained through the `/login` route.
+
+### `POST /user`
+
+Creates a new user
+
+##### Request
+
+```json
+{
+  "username": "exampleUserme",
+  "password": "Abc@123"
+  // Password requirements: 1 Uppercase, 1 Lowercase, 1 Number, 1 Special character, and length greater than 3
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "29d540d5-02e2-4696-8d54-ccc257c7befa",
+  "username": "exampleUserme"
+}
+```
+
+### `POST /login`
+
+Allows a user to log in and obtain a Bearer Token.
+
+#### Request
+
+```json
+{
+  "username": "exampleUserme",
+  "password": "Abc@123"
+}
+```
+
+#### Response
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyOWQ1N0KJs1J"
+}
+```
 
 ### `POST /collection`
 
@@ -187,7 +231,7 @@ Retrieves all data from a specific NFT collection based on its collection contra
 }
 ```
 
-### `GET /collection/all`
+### `GET /collection`
 
 Retrieves all collections on the database
 
@@ -253,11 +297,7 @@ Creates a new collection set using the collection in the database; otherwise, it
 
 ### `GET /collection-set`
 
-Retrieves a collection set by its ID.
-
-- Query Parameter:
-  - id: The collection set ID (e.g., "a05bd28d-2e34-4182-b11e-22414ca88f83").
-  - `/collection-set?id=a05bd28d-2e34-4182-b11e-22414ca88f83`
+Retrives all collection sets in the database
 
 #### Response
 
@@ -282,9 +322,13 @@ Retrieves a collection set by its ID.
 }
 ```
 
-### `GET /collection-set/all`
+### `GET /collection-set/:id`
 
-Retrives all collection sets in the database
+Retrieves a collection set by its ID.
+
+- Route Parameter:
+  - id: The collection set ID (e.g., "a05bd28d-2e34-4182-b11e-22414ca88f83").
+  - `/collection-set/a05bd28d-2e34-4182-b11e-22414ca88f83`
 
 #### Response
 

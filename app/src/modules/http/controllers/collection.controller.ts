@@ -8,30 +8,28 @@ export class CollectionsController {
 	constructor(private createCollection: CollectionService) {}
 
 	@Post()
-	async create(@Body() body: createCollectionBody) {
+	async create(@Body() body: createCollectionBody, @Res() res) {
 		const { contract } = body;
 
 		const { collection } = await this.createCollection.execute({
 			contract,
 		});
 
-		return { collection };
-	}
-
-	@Get(':id')
-	async retrive(
-		@Param('id') id: string,
-		@Res() res,
-	): Promise<Collection | { message: string }> {
-		const collection = await this.createCollection.retrieve(id);
-
-		if (Object.keys(collection).includes('message')) {
-			return res.status(400).json({
-				message: 'Collection not found',
-			});
+		if (collection.name == 'invalid') {
+			return res
+				.status(400)
+				.json({ error: 'Collection does not exist in Reservoir' });
 		}
 
-		return res.status(200).json(collection);
+		return res.status(201).json({
+			id: collection.getID,
+			contract: collection.contract,
+			name: collection.name,
+			floorSale: collection.floorSale,
+			floorSaleChange: collection.floorSaleChange,
+			description: collection.description,
+			createdAt: collection.createdAt,
+		});
 	}
 
 	@Get()
@@ -52,5 +50,21 @@ export class CollectionsController {
 		const collections = await this.createCollection.retrieveAll();
 
 		return collections;
+	}
+
+	@Get(':id')
+	async retrive(
+		@Param('id') id: string,
+		@Res() res,
+	): Promise<Collection | { message: string }> {
+		const collection = await this.createCollection.retrieve(id);
+
+		if (Object.keys(collection).includes('message')) {
+			return res.status(400).json({
+				message: 'Collection not found',
+			});
+		}
+
+		return res.status(200).json(collection);
 	}
 }

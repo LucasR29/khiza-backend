@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Query, Res } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Res } from '@nestjs/common';
 import { CollectionsSetService } from 'src/services/collections-set.service';
 import { CollectionSet } from 'src/entities/collection-set';
 import { createCollectionsSetBody } from '../dtos/create-collection-set.dto';
@@ -33,25 +33,31 @@ export class CollectionSetController {
 	}
 
 	@Get()
-	async retrive(
-		@Query('id') id: string,
-		@Res() res,
-	): Promise<CollectionSet | { message: string }> {
-		const collection = await this.createCollectionsSet.retrieve(id);
-
-		if (Object.keys(collection).includes('message')) {
-			return res.status(400).json({
-				message: 'Collections set not found',
-			});
-		}
-
-		return res.status(200).json({ collectionSet: collection });
-	}
-
-	@Get('all')
 	async retriveAll(): Promise<{ collectionsSets: CollectionSet[] }> {
 		const collectionsSets = await this.createCollectionsSet.retrieveAll();
 
 		return { collectionsSets: collectionsSets };
+	}
+
+	@Get(':id')
+	async retrive(
+		@Res() res,
+		@Param('id') id: string,
+	): Promise<CollectionSet | { message: string }> {
+		if (id) {
+			const collection = await this.createCollectionsSet.retrieve(id);
+
+			if (Object.keys(collection).includes('message')) {
+				return res.status(400).json({
+					message: 'Collections set not found',
+				});
+			}
+
+			return res.status(200).json({ collectionSet: collection });
+		}
+
+		return res
+			.status(400)
+			.json({ error: 'Canot GET without collection set id' });
 	}
 }

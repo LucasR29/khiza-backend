@@ -24,16 +24,28 @@ export class CollectionService {
 
 		const collInfo = await retrieveCollection(contract);
 
+		if (collInfo.collections.length > 0) {
+			const collection = new Collection({
+				contract,
+				name: collInfo.collections[0].name,
+				floorSale: collInfo.collections[0].floorSale,
+				floorSaleChange: collInfo.collections[0].floorSaleChange,
+				description:
+					collInfo.collections[0].description ?? collInfo.collections[0].name,
+			});
+
+			await this.collectionRepository.create(collection);
+
+			return { collection };
+		}
+
 		const collection = new Collection({
 			contract,
-			name: collInfo.collections[0].name,
-			floorSale: collInfo.collections[0].floorSale,
-			floorSaleChange: collInfo.collections[0].floorSaleChange,
-			description:
-				collInfo.collections[0].description ?? collInfo.collections[0].name,
+			name: 'invalid',
+			floorSale: JSON.parse(JSON.stringify({ invalid: 'invalid' })),
+			floorSaleChange: JSON.parse(JSON.stringify({ invalid: 'invalid' })),
+			description: 'invalid',
 		});
-
-		await this.collectionRepository.create(collection);
 
 		return { collection };
 	}
