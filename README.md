@@ -231,7 +231,7 @@ Retrieves all data from a specific NFT collection based on its collection contra
 }
 ```
 
-### `GET /collection`
+### `GET /collection/all`
 
 Retrieves all collections on the database
 
