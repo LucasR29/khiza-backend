@@ -58,7 +58,7 @@ To use this application, you need to create a Reservoir Key, which will be used 
    - Paste your Reservoir API Key into the .env file at the RESERVOIR_API_KEY variable.
 
 3. Local Development:
-   - During local development, the application will use the .env.example file automatically.
+   - During local development, the application will use the .env file inside the app folder automatically.
    - Run the project using the following command:
 
 ```
@@ -72,7 +72,7 @@ yarn start:dev
 4. Docker Deployment:
 
    - To deploy the application using Docker, ensure you have Docker installed and running on your system.
-   - Make sure the .env file at the root contains the correct configuration with your Reservoir API Key.
+   - The .env file at the root already contains the correct configuration, you just need to put in your Reservoir API Key.
    - Build the Docker image:
 
      ```
