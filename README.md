@@ -252,8 +252,6 @@ Retrieves all collections on the database
 ]
 ```
 
-## `/collection-set`
-
 ### `POST /collection-set`
 
 Creates a new collection set using the collection in the database; otherwise, it will create it.
